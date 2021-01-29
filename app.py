@@ -58,14 +58,14 @@ def secret_message():
     """Shows the user a form to collect a secret message. Sends the result via
     the POST method to keep it a secret!"""
     return """
-    <form action="/message_results" method="POST">
+    <form action="/message_results" method="GET">
         What is your secret message? <br/>
         <input type="text" name="message"><br/>
         <input type="submit" value="Submit!">
     </form>
     """
 
-@app.route('/message_results', methods=['POST'])
+@app.route('/message_results', methods=['GET'])
 def message_results():
     """Shows the user their message, with the letters in sorted order."""
     users_message = str(request.args.get('message'))
@@ -132,7 +132,6 @@ def horoscope_results():
     # TODO: Look up the user's personality in the HOROSCOPE_PERSONALITIES
     # dictionary based on what the user entered
     users_personality = HOROSCOPE_PERSONALITIES[horoscope_sign]
-
     # TODO: Generate a random number from 1 to 99
     lucky_number = random.randint(1,99)
 
