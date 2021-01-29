@@ -17,22 +17,18 @@ def homepage():
 @app.route('/froyo')
 def choose_froyo():
     """Shows a form to collect the user's Fro-Yo order."""
-    return """
-    <form action="/froyo_results" method="GET">
-        What is your favorite Fro-Yo flavor? <br/>
-        <input type="text" name="flavor"><br/>
-        Put your favorite toppings on!
-        <input type="text" name="toppings"><br/>
-        <input type="submit" value="Submit!">
-    </form>
-    """
+    return render_template('froyo_form.html')
 
 @app.route('/froyo_results')
 def show_froyo_results():
     """Shows the user what they ordered from the previous page."""
     users_froyo_flavor = request.args.get('flavor')
     users_froyo_toppings = request.args.get('toppings')
-    return f'You ordered {users_froyo_flavor} flavored Fro-Yo with toppings {users_froyo_toppings}!'
+    context={
+        'users_froyo_flavor': users_froyo_flavor,
+        'users_froyo_toppings': users_froyo_toppings
+    }
+    return render_template('froyo_results.html', **context)
 
 @app.route('/favorites')
 def favorites():
@@ -129,7 +125,7 @@ def horoscope_form():
 @app.route('/horoscope_results')
 def horoscope_results():
     """Shows the user the result for their chosen horoscope."""
-
+    users_name = request.args.get('users_name')
     # TODO: Get the sign the user entered in the form, based on their birthday
     horoscope_sign = request.args.get('horoscope_sign')
 
@@ -141,12 +137,14 @@ def horoscope_results():
     lucky_number = random.randint(1,99)
 
     context = {
+        'users_name': users_name,
         'horoscope_sign': horoscope_sign,
         'personality': users_personality, 
         'lucky_number': lucky_number
     }
 
     return render_template('horoscope_results.html', **context)
+    
 
 if __name__ == '__main__':
     app.config['ENV'] = 'development'
