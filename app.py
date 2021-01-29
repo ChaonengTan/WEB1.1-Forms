@@ -39,7 +39,7 @@ def favorites():
         <input type="text" name="color"><br/>
         What is your favorite animal? <br/>
         <input type="text" name="animal"><br/>
-        What is your favorite color? <br/>
+        What is your favorite city? <br/>
         <input type="text" name="city"><br/>
         <input type="submit" value="Submit!">
     </form>
@@ -68,10 +68,10 @@ def secret_message():
 @app.route('/message_results', methods=['POST'])
 def message_results():
     """Shows the user their message, with the letters in sorted order."""
-    users_message = request.args.get('message')
+    users_message = str(request.args.get('message'))
     return f"""
     Here's your secret message!
-        {users_message.sort_letters()}
+        {sort_letters(users_message)}
     """
 
 @app.route('/calculator')
@@ -131,7 +131,7 @@ def horoscope_results():
 
     # TODO: Look up the user's personality in the HOROSCOPE_PERSONALITIES
     # dictionary based on what the user entered
-    users_personality = HOROSCOPE_PERSONALITIES['{horoscope_sign}']
+    users_personality = HOROSCOPE_PERSONALITIES[horoscope_sign]
 
     # TODO: Generate a random number from 1 to 99
     lucky_number = random.randint(1,99)
